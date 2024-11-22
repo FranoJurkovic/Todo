@@ -1,0 +1,52 @@
+/* Stil za navigacioni bar */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #000080; /* Tamno plava pozadina */
+  padding: 12px 24px;
+  border-radius: 8px;
+}
+
+/* Stil za pozdravnu poruku */
+h2 {
+  color: white; /* Bijela slova */
+  font-size: 22px;
+  margin: 0;
+}
+
+/* Stil za dugmad za odjavu */
+button {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.1s;
+}
+
+button:hover {
+  background-color: #e53935; /* Blagi efekt za hover */
+  transform: scale(1.05);
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  nav {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  button {
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+  }
+}
