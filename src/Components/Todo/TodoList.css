@@ -109,6 +109,9 @@ button.delete:hover {
   background-color: #e53935; /* Blagi efekt za hover */
   transform: scale(1.05);
 }
+.task-text p{
+  color: white;
+}
 
 /* Responsive Design */
 @media screen and (max-width: 768px) {
