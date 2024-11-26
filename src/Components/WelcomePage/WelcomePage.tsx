@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { TodoList } from '../Todo';
 import { Navbar } from '../Navbar';
 import './WelcomePage.css';
 import { useAuth } from '../../Hooks/useAuth';
+import { TaskList } from '../Task';
 
 const WelcomePage: React.FC = () => {
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ const WelcomePage: React.FC = () => {
   return (
     <div className="welcome-container">
       <Navbar />
-      <TodoList /> {/* Prikazuje listu zadataka */}
+      <TaskList /> {/* Prikazuje listu zadataka */}
     </div>
   );
 };

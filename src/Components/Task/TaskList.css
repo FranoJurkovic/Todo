@@ -1,5 +1,5 @@
 /* Stil za glavni kontejner */
-.todo-container {
+.task-container {
   padding: 20px;
   font-family: 'Arial', sans-serif;
   background-color: #f9f9f9;
@@ -91,6 +91,13 @@ li {
 li.completed {
   text-decoration: line-through;
   color: #888;
+  background-color: rgb(80, 122, 17);
+}
+
+/* Stil za checkbox */
+li input[type="checkbox"] {
+  margin-right: 10px; /* Razmak desno od checkboxa */
+  transform: scale(1.2); /* Uvećavanje checkboxa za bolju vidljivost */
 }
 
 /* Stil za dugmad za brisanje zadataka */
@@ -109,7 +116,8 @@ button.delete:hover {
   background-color: #e53935; /* Blagi efekt za hover */
   transform: scale(1.05);
 }
-.task-text p{
+
+.task-text p {
   color: white;
 }
 

@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { collection, getDocs, addDoc, updateDoc, doc, query, where, deleteDoc } from 'firebase/firestore';
+import { collection, query, where, getDocs, deleteDoc, addDoc } from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth, database } from '../../firebaseconfing';
-import './TodoList.css';
+import './TaskList.css';
 import { Task } from '../../Types/Task';
-import { deleteTask } from '../../Services/Task/Service';
+import { fetchTasksAndCategories, addTask, updateTask, deleteTask} from '../../Services/Task/Service';
 
-export const TodoList: React.FC = () => {
+export const TaskList: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [newTaskTitle, setNewTaskTitle] = useState('');
   const [newTaskDescription, setNewTaskDescription] = useState('');
@@ -17,31 +17,22 @@ export const TodoList: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [categoryErrorMessage, setCategoryErrorMessage] = useState<string>("");
 
-  const tasksCollectionRef = collection(database, 'tasks');
-  const categoriesCollectionRef = collection(database, 'categories');
-
-  const fetchTasksAndCategories = useCallback(async (userId: string) => {
+  const fetchTasksAndCategoriesCallback = useCallback(async (userId: string) => {
     if (!userId) return;
     try {
-      const tasksQuery = query(tasksCollectionRef, where("userID", "==", userId));
-      const tasksData = await getDocs(tasksQuery);
-      setTasks(tasksData.docs.map((doc) => ({ ...doc.data(), id: doc.id } as Task)));
-
-      const categoriesQuery = query(categoriesCollectionRef, where("userID", "==", userId));
-      const categoriesData = await getDocs(categoriesQuery);
-      setCategories(categoriesData.docs.map((doc) => doc.data().name as string));
+      const { tasks, categories } = await fetchTasksAndCategories(userId);
+      setTasks(tasks);
+      setCategories(categories);
     } catch (error) {
-      if (userId) {
-        console.error("Error fetching tasks and categories:", error);
-      }
+      console.error("Error fetching tasks and categories:", error);
     }
-  }, [tasksCollectionRef, categoriesCollectionRef]);
+  }, []);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
-        fetchTasksAndCategories(currentUser.uid);
+        fetchTasksAndCategoriesCallback(currentUser.uid);
       } else {
         setUser(null);
         setTasks([]);
@@ -49,7 +40,7 @@ export const TodoList: React.FC = () => {
       }
     });
     return () => unsubscribe();
-  }, [fetchTasksAndCategories]);
+  }, [fetchTasksAndCategoriesCallback]);
 
   const handleAddTask = async () => {
     if (!category.trim()) {
@@ -69,12 +60,11 @@ export const TodoList: React.FC = () => {
           category: category,
           userID: user.uid,
         };
-        const docRef = await addDoc(tasksCollectionRef, newTask);
-        setTasks([...tasks, { ...newTask, id: docRef.id }]);
+        const addedTask = await addTask(newTask);
+        setTasks([...tasks, addedTask]);
         setNewTaskTitle('');
         setNewTaskDescription('');
         setErrorMessage("");
-        console.log("New task added:", newTask);
       } catch (error) {
         console.error("Error adding task:", error);
       }
@@ -88,12 +78,12 @@ export const TodoList: React.FC = () => {
     }
     if (!categories.includes(newCategory) && user) {
       try {
+        const categoriesCollectionRef = collection(database, 'categories');
         const newCategoryItem = { name: newCategory, userID: user.uid };
         await addDoc(categoriesCollectionRef, newCategoryItem);
         setCategories([...categories, newCategory]);
         setNewCategory('');
         setCategoryErrorMessage("");
-        console.log("New category added:", newCategoryItem);
       } catch (error) {
         console.error("Error adding category:", error);
       }
@@ -104,13 +94,14 @@ export const TodoList: React.FC = () => {
     const categoryToDelete = categories[index];
     if (user) {
       try {
+        const categoriesCollectionRef = collection(database, 'categories');
         const categoryQuery = query(categoriesCollectionRef, where("name", "==", categoryToDelete), where("userID", "==", user.uid));
         const categoryDocs = await getDocs(categoryQuery);
         categoryDocs.forEach(async (document) => {
           await deleteDoc(document.ref);
         });
 
-        const tasksQuery = query(tasksCollectionRef, where("category", "==", categoryToDelete), where("userID", "==", user.uid));
+        const tasksQuery = query(collection(database, 'tasks'), where("category", "==", categoryToDelete), where("userID", "==", user.uid));
         const tasksDocs = await getDocs(tasksQuery);
         tasksDocs.forEach(async (document) => {
           await deleteDoc(document.ref);
@@ -128,8 +119,17 @@ export const TodoList: React.FC = () => {
     return tasks.filter((task) => task.category === category);
   };
 
+  const handleCheckboxChange = async (task: Task) => {
+    try {
+      await updateTask(task.id!, { completed: !task.completed });
+      setTasks(tasks.map((item) => item.id === task.id ? { ...item, completed: !item.completed } : item));
+    } catch (error) {
+      console.error("Error updating task:", error);
+    }
+  };
+
   return (
-    <div className="todo-container">
+    <div className="task-container">
       <input
         type="text"
         placeholder="Dodaj novu kategoriju"
@@ -175,7 +175,7 @@ export const TodoList: React.FC = () => {
         onChange={(e) => setNewTaskDescription(e.target.value)}
       />
       <button onClick={handleAddTask}>Dodaj zadatak</button>
-      <hr />  
+      <hr />
       {category && filterTasksByCategory(category).length > 0 && <h2 className='naslovi'>Zadaci:</h2>}
       <ul>
         {category ? (
@@ -184,17 +184,18 @@ export const TodoList: React.FC = () => {
           ) : (
             filterTasksByCategory(category).map((task) => (
               <li key={task.id} className={task.completed ? 'completed' : ''}>
-                <div onClick={() => {
-                    const taskDoc = doc(database, 'tasks', task.id!);
-                    updateDoc(taskDoc, { completed: !task.completed });
-                    setTasks(tasks.map((item) => item.id === task.id ? { ...item, completed: !item.completed } : item));
-                  }} className="task-text">
-                  <h3>{task.title}</h3>
+                <div className="task-text">
+                  <h1>{task.category}</h1>
+                  <h6>{task.title}</h6>
                   <p>{task.description}</p>
-                  <p>({task.category})</p>
                 </div>
+                <input
+                  type="checkbox"
+                  checked={task.completed}
+                  onChange={() => handleCheckboxChange(task)}
+                />
                 <button className="delete" onClick={() => {
-                  deleteTask(task.id!); // Use the deleteTask function here
+                  deleteTask(task.id!);
                   setTasks(tasks.filter((item) => item.id !== task.id));
                 }}>Obriši</button>
               </li>
