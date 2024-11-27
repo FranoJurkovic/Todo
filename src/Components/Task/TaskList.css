@@ -90,7 +90,7 @@ li {
 
 li.completed {
   color: #888;
-  background: linear-gradient(rgb(17, 122, 76),yellow,rgb(83, 114, 36));
+  background: linear-gradient(blue,yellow);
 }
 
 li.completed .task-text {
