@@ -49,7 +49,7 @@ const HomePage: React.FC = () => {
       </div>
 
       <footer className="footer">
-        <p>&copy; {new Date().getFullYear()} Aplikacija zadataka. Sva prava pridržana. Kreirao Frano ⚙️</p>
+        <p>&copy; {new Date().getFullYear()} Aplikacija zadataka. Sva prava pridržana. Kreirao Frano 🛠️</p>
       </footer>
     </div>
   );

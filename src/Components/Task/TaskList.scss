@@ -262,4 +262,10 @@ button.delete {
     align-items: flex-start;
     position: relative;
   }
+
+  // Dodano pravilo za modal za uređivanje na manjim zaslonima
+  .edit-modal {
+    width: 100%;  // Maksimalna širina
+    max-width: 100%;  // Osigurava da modal koristi maksimalnu širinu zaslona
+  }
 }
