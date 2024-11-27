@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { collection, query, where, getDocs, deleteDoc, addDoc } from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
-import { auth, database } from '../../firebaseconfing';
+import { auth } from '../../firebaseconfing';
 import './TaskList.scss';
 import { Task } from '../../Types/Task';
-import { fetchTasksAndCategories, addTask, updateTask, deleteTask} from '../../Services/Task/Service';
+import { fetchTasksAndCategories, addTask, updateTask, deleteTask, handleAddCategory, handleDeleteCategory } from '../../Services/Task/Service';
 
 export const TaskList: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -42,7 +41,7 @@ export const TaskList: React.FC = () => {
     return () => unsubscribe();
   }, [fetchTasksAndCategoriesCallback]);
 
-  const handleAddTask = async () => {
+  const handleAddTaskClick = async () => {
     if (!category.trim()) {
       setErrorMessage("Trebate odabrati kategoriju kako bi dodali zadatak.");
       return;
@@ -71,16 +70,14 @@ export const TaskList: React.FC = () => {
     }
   };
 
-  const handleAddCategory = async () => {
+  const handleAddCategoryClick = async () => {
     if (newCategory.trim() === '') {
       setCategoryErrorMessage("Unesite ime kategorije.");
       return;
     }
     if (!categories.includes(newCategory) && user) {
       try {
-        const categoriesCollectionRef = collection(database, 'categories');
-        const newCategoryItem = { name: newCategory, userID: user.uid };
-        await addDoc(categoriesCollectionRef, newCategoryItem);
+        await handleAddCategory(newCategory, user.uid);
         setCategories([...categories, newCategory]);
         setNewCategory('');
         setCategoryErrorMessage("");
@@ -90,23 +87,11 @@ export const TaskList: React.FC = () => {
     }
   };
 
-  const handleDeleteCategory = async (index: number) => {
+  const handleDeleteCategoryClick = async (index: number) => {
     const categoryToDelete = categories[index];
     if (user) {
       try {
-        const categoriesCollectionRef = collection(database, 'categories');
-        const categoryQuery = query(categoriesCollectionRef, where("name", "==", categoryToDelete), where("userID", "==", user.uid));
-        const categoryDocs = await getDocs(categoryQuery);
-        categoryDocs.forEach(async (document) => {
-          await deleteDoc(document.ref);
-        });
-
-        const tasksQuery = query(collection(database, 'tasks'), where("category", "==", categoryToDelete), where("userID", "==", user.uid));
-        const tasksDocs = await getDocs(tasksQuery);
-        tasksDocs.forEach(async (document) => {
-          await deleteDoc(document.ref);
-        });
-
+        await handleDeleteCategory(categoryToDelete, user.uid);
         setCategories(categories.filter((_, i) => i !== index));
         setTasks(tasks.filter(task => task.category !== categoryToDelete));
       } catch (error) {
@@ -136,7 +121,7 @@ export const TaskList: React.FC = () => {
         value={newCategory}
         onChange={(e) => setNewCategory(e.target.value)}
       />
-      <button onClick={handleAddCategory}>Dodaj kategoriju</button>
+      <button onClick={handleAddCategoryClick}>Dodaj kategoriju</button>
       {categoryErrorMessage && <p style={{ color: "red" }}>{categoryErrorMessage}</p>}
       <br />
       <hr />
@@ -146,7 +131,7 @@ export const TaskList: React.FC = () => {
         {categories.map((cat, index) => (
           <li key={index}>
             {cat}
-            <button onClick={() => handleDeleteCategory(index)} style={{ marginLeft: '10px' }}>
+            <button onClick={() => handleDeleteCategoryClick(index)} style={{ marginLeft: '10px' }}>
               Izbriši
             </button>
           </li>
@@ -174,7 +159,7 @@ export const TaskList: React.FC = () => {
         value={newTaskDescription}
         onChange={(e) => setNewTaskDescription(e.target.value)}
       />
-      <button onClick={handleAddTask}>Dodaj zadatak</button>
+      <button onClick={handleAddTaskClick}>Dodaj zadatak</button>
       <hr />
       {category && filterTasksByCategory(category).length > 0 && <h2 className='naslovi'>Zadaci:</h2>}
       <ul>

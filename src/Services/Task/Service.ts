@@ -25,6 +25,40 @@ export const addTask = async (newTask: Task): Promise<Task> => {
   }
 };
 
+export const handleAddCategory = async (newCategory: string, userId: string): Promise<void> => {
+  try {
+    const categoriesCollectionRef = collection(database, 'categories');
+    const newCategoryItem = { name: newCategory, userID: userId };
+    await addDoc(categoriesCollectionRef, newCategoryItem);
+    console.log("New category added:", newCategory);
+  } catch (error) {
+    console.error("Error adding category:", error);
+    throw new Error("Error adding category");
+  }
+};
+
+export const handleDeleteCategory = async (categoryToDelete: string, userId: string): Promise<void> => {
+  try {
+    const categoriesCollectionRef = collection(database, 'categories');
+    const categoryQuery = query(categoriesCollectionRef, where("name", "==", categoryToDelete), where("userID", "==", userId));
+    const categoryDocs = await getDocs(categoryQuery);
+    categoryDocs.forEach(async (document) => {
+      await deleteDoc(document.ref);
+    });
+
+    const tasksQuery = query(collection(database, 'tasks'), where("category", "==", categoryToDelete), where("userID", "==", userId));
+    const tasksDocs = await getDocs(tasksQuery);
+    tasksDocs.forEach(async (document) => {
+      await deleteDoc(document.ref);
+    });
+
+    console.log(`Category ${categoryToDelete} and its tasks deleted successfully.`);
+  } catch (error) {
+    console.error("Error deleting category:", error);
+    throw new Error("Error deleting category");
+  }
+};
+
 export const fetchTasksAndCategories = async (userId: string) => {
   if (!userId) return { tasks: [], categories: [] };
   try {
