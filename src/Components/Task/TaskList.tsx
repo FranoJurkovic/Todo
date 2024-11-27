@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { collection, query, where, getDocs, deleteDoc, addDoc } from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth, database } from '../../firebaseconfing';
-import './TaskList.css';
+import './TaskList.scss';
 import { Task } from '../../Types/Task';
 import { fetchTasksAndCategories, addTask, updateTask, deleteTask} from '../../Services/Task/Service';
 
@@ -185,9 +185,9 @@ export const TaskList: React.FC = () => {
             filterTasksByCategory(category).map((task) => (
               <li key={task.id} className={task.completed ? 'completed' : ''}>
                 <div className="task-text">
-                  <h1>{task.category}</h1>
-                  <h6>{task.title}</h6>
-                  <p>{task.description}</p>
+                  <h3 className="task-category">Kategorija: {task.category}</h3>
+                  <h4 className="task-title">Naziv: {task.title}</h4>
+                  <p className="task-description">Opis: {task.description}</p>
                 </div>
                 <input
                   type="checkbox"
