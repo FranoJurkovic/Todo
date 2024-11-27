@@ -89,15 +89,56 @@ li {
 }
 
 li.completed {
-  text-decoration: line-through;
   color: #888;
   background-color: rgb(80, 122, 17);
 }
 
+li.completed .task-text {
+  text-decoration: line-through; /* Linija kroz tekst zadatka */
+}
+
+li.completed button.delete {
+  background-color: #f44336; /* Boja pozadine gumba */
+  color: white;
+  text-decoration: none; /* Uklanja liniju kroz tekst gumba */
+}
+
+li.completed button.delete:hover {
+  background-color: #e53935; /* Boja pozadine gumba pri hoveru */
+  transform: scale(1.05);
+}
+
 /* Stil za checkbox */
 li input[type="checkbox"] {
+  position: relative;
+  width: 20px;
+  height: 20px;
   margin-right: 10px; /* Razmak desno od checkboxa */
-  transform: scale(1.2); /* Uvećavanje checkboxa za bolju vidljivost */
+  appearance: none; /* Uklanja zadani stil checkboxa */
+  background-color: #fff;
+  border: 2px solid #000080; /* Boja okvira */
+  border-radius: 4px; /* Blagi zaobljeni rubovi */
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s; /* Glatki prijelazi */
+}
+
+li input[type="checkbox"]:hover {
+  border-color: #0056b3; /* Boja okvira pri hoveru */
+}
+
+li input[type="checkbox"]:checked {
+  background-color: #000080; /* Boja pozadine kada je označen */
+  border-color: #000080; /* Boja okvira kada je označen */
+}
+
+li input[type="checkbox"]:checked::before {
+  content: '✓'; /* Simbol oznake */
+  font-size: 16px;
+  color: white; /* Boja oznake */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Poravnanje oznake */
 }
 
 /* Stil za dugmad za brisanje zadataka */
