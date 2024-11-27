@@ -3,7 +3,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../../firebaseconfing';
 import './TaskList.scss';
 import { Task } from '../../Types/Task';
-import { fetchTasksAndCategories, addTask, updateTask, deleteTask, handleAddCategory, handleDeleteCategory } from '../../Services/Task/Service';
+import { fetchTasksAndCategories, addTask, updateTask, deleteTask, handleAddCategory, handleDeleteCategory, handleSaveChanges } from '../../Services/Task/Service';
 
 export const TaskList: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -15,6 +15,12 @@ export const TaskList: React.FC = () => {
   const [user, setUser] = useState<any>(null);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [categoryErrorMessage, setCategoryErrorMessage] = useState<string>("");
+
+  // Državni za uređivanje
+  const [editingTask, setEditingTask] = useState<Task | null>(null);
+  const [editTaskTitle, setEditTaskTitle] = useState('');
+  const [editTaskDescription, setEditTaskDescription] = useState('');
+  const [editCategory, setEditCategory] = useState('');
 
   const fetchTasksAndCategoriesCallback = useCallback(async (userId: string) => {
     if (!userId) return;
@@ -50,6 +56,10 @@ export const TaskList: React.FC = () => {
       setErrorMessage("Unesite naslov zadatka.");
       return;
     }
+    if (newTaskDescription.trim() === '') {
+      setErrorMessage("Unesite opis zadatka.");
+      return;
+    }
     if (user) {
       try {
         const newTask: Task = {
@@ -58,6 +68,7 @@ export const TaskList: React.FC = () => {
           completed: false,
           category: category,
           userID: user.uid,
+          createdAt: new Date() // Dodano polje za vrijeme kreiranja zadatka
         };
         const addedTask = await addTask(newTask);
         setTasks([...tasks, addedTask]);
@@ -111,6 +122,35 @@ export const TaskList: React.FC = () => {
     } catch (error) {
       console.error("Error updating task:", error);
     }
+  };
+
+  const handleEditClick = (task: Task) => {
+    setEditingTask(task);
+    setEditTaskTitle(task.title);
+    setEditTaskDescription(task.description);
+    setEditCategory(task.category);
+  };
+
+  const handleSaveChangesClick = async () => {
+    if (editingTask && user) {
+      try {
+        const updatedTask: Task = {
+          ...editingTask,
+          title: editTaskTitle,
+          description: editTaskDescription,
+          category: editCategory
+        };
+        await handleSaveChanges(updatedTask, user.uid);
+        setTasks(tasks.map((task) => task.id === updatedTask.id ? updatedTask : task));
+        setEditingTask(null);
+      } catch (error) {
+        console.error("Error saving task changes:", error);
+      }
+    }
+  };
+
+  const handleCancelEditClick = () => {
+    setEditingTask(null);
   };
 
   return (
@@ -173,16 +213,52 @@ export const TaskList: React.FC = () => {
                   <h3 className="task-category">Kategorija: {task.category}</h3>
                   <h4 className="task-title">Naziv: {task.title}</h4>
                   <p className="task-description">Opis: {task.description}</p>
+                  <p className="task-createdAt">Kreirano: {new Date(task.createdAt).toLocaleString()}</p>
                 </div>
                 <input
                   type="checkbox"
                   checked={task.completed}
                   onChange={() => handleCheckboxChange(task)}
                 />
+                <button className="edit" onClick={() => handleEditClick(task)}>Uredi</button>
                 <button className="delete" onClick={() => {
                   deleteTask(task.id!);
                   setTasks(tasks.filter((item) => item.id !== task.id));
                 }}>Obriši</button>
+                
+                {editingTask && editingTask.id === task.id && (
+                  <div className="edit-modal">
+                    <h2>Uredi zadatak</h2>
+                    <label>
+                      Kategorija:
+                      <select value={editCategory} onChange={(e) => setEditCategory(e.target.value)}>
+                        {categories.map((cat, index) => (
+                          <option key={index} value={cat}>
+                            {cat}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                    <label>
+                      Naziv:
+                      <input
+                        type="text"
+                        value={editTaskTitle}
+                        onChange={(e) => setEditTaskTitle(e.target.value)}
+                      />
+                    </label>
+                    <label>
+                      Opis:
+                      <input
+                        type="text"
+                        value={editTaskDescription}
+                        onChange={(e) => setEditTaskDescription(e.target.value)}
+                      />
+                    </label>
+                    <button onClick={handleSaveChangesClick}>Spremi promjene</button>
+                    <button onClick={handleCancelEditClick}>Odustani</button>
+                  </div>
+                )}
               </li>
             ))
           )

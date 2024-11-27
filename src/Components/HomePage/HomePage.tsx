@@ -25,7 +25,7 @@ const HomePage: React.FC = () => {
     <div className="homepage-container">
       <nav className="navbar">
         <div className="left-section">
-          <h1>Todo aplikacija</h1>
+          <h1>Aplikacija zadataka</h1>
         </div>
         <div className="right-section">
           <button className="button" onClick={handleNavigateToLogin}>
@@ -41,7 +41,7 @@ const HomePage: React.FC = () => {
         <div className="features">
           <h2>Zašto koristiti našu aplikaciju?</h2>
           <ul>
-            <li>Jednostavno dodavanje i upravljanje zadacima</li>
+            <li>Jednostavno dodavanje, uređivanje i upravljanje zadacima</li>
             <li>Kategorizacija zadataka radi boljeg pregleda</li>
             <li>Pristup zadacima s bilo kojeg uređaja</li>
           </ul>
@@ -49,7 +49,7 @@ const HomePage: React.FC = () => {
       </div>
 
       <footer className="footer">
-        <p>&copy; {new Date().getFullYear()} Todo aplikacija. Sva prava pridržana.</p>
+        <p>&copy; {new Date().getFullYear()} Aplikacija zadataka. Sva prava pridržana. Kreirao Frano ⚙️</p>
       </footer>
     </div>
   );

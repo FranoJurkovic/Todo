@@ -16,9 +16,9 @@ export const deleteTask = async (taskId: string): Promise<void> => {
 export const addTask = async (newTask: Task): Promise<Task> => {
   try {
     const tasksCollectionRef = collection(database, 'tasks');
-    const docRef = await addDoc(tasksCollectionRef, newTask);
+    const docRef = await addDoc(tasksCollectionRef, { ...newTask, createdAt: new Date() });
     console.log("New task added:", newTask);
-    return { ...newTask, id: docRef.id };
+    return { ...newTask, id: docRef.id, createdAt: new Date() };
   } catch (error) {
     console.error("Error adding task:", error);
     throw new Error("Error adding task");
@@ -67,7 +67,10 @@ export const fetchTasksAndCategories = async (userId: string) => {
     
     const tasksQuery = query(tasksCollectionRef, where("userID", "==", userId));
     const tasksData = await getDocs(tasksQuery);
-    const tasks = tasksData.docs.map((doc) => ({ ...doc.data(), id: doc.id } as Task));
+    const tasks = tasksData.docs.map((doc) => {
+      const data = doc.data();
+      return { ...data, id: doc.id, createdAt: data.createdAt ? data.createdAt.toDate() : new Date() } as Task;
+    });
 
     const categoriesQuery = query(categoriesCollectionRef, where("userID", "==", userId));
     const categoriesData = await getDocs(categoriesQuery);
@@ -85,7 +88,10 @@ export const getUserTasks = async (userId: string): Promise<Task[]> => {
     const q = query(collection(database, "tasks"), where("userID", "==", userId));
     const querySnapshot = await getDocs(q);
     return querySnapshot.docs.map(
-      (doc) => ({ id: doc.id, ...doc.data() } as Task)
+      (doc) => {
+        const data = doc.data();
+        return { id: doc.id, ...data, createdAt: data.createdAt ? data.createdAt.toDate() : new Date() } as Task;
+      }
     );
   } catch (error) {
     console.error("Error getting user tasks:", error);
@@ -102,5 +108,23 @@ export const updateTask = async (
   } catch (error) {
     console.error("Error updating task:", error);
     throw error;
+  }
+};
+
+export const handleSaveChanges = async (task: Task, userId: string): Promise<void> => {
+  try {
+    // Delete the old task
+    const taskDocRef = doc(database, 'tasks', task.id!);
+    await deleteDoc(taskDocRef);
+    console.log(`Old task with ID ${task.id} deleted successfully.`);
+
+    // Add the new task without the id field
+    const { id, ...newTaskData } = task;
+    const tasksCollectionRef = collection(database, 'tasks');
+    const docRef = await addDoc(tasksCollectionRef, { ...newTaskData, createdAt: new Date() });
+    console.log("New task added:", { ...newTaskData, id: docRef.id });
+  } catch (error) {
+    console.error("Error updating task:", error);
+    throw new Error("Error updating task");
   }
 };
