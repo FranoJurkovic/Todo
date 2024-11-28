@@ -14,7 +14,7 @@ export const Navbar: React.FC = () => {
       await signOut(auth); // Čekaj da se proces odjave završi
       navigate('/'); // Preusmjeri na početnu stranicu
     } catch (error) {
-      console.error("Error signing out:", error);
+      console.error("Greška prilikom prijave:", error);
     }
   };
 

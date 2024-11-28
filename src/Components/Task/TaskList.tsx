@@ -29,7 +29,7 @@ export const TaskList: React.FC = () => {
       setTasks(tasks);
       setCategories(categories);
     } catch (error) {
-      console.error("Error fetching tasks and categories:", error);
+      console.error("Greška dohvaćanja kategorije i zadatka:", error);
     }
   }, []);
 
@@ -76,7 +76,7 @@ export const TaskList: React.FC = () => {
         setNewTaskDescription('');
         setErrorMessage("");
       } catch (error) {
-        console.error("Error adding task:", error);
+        console.error("Greška dodavanja zadatka:", error);
       }
     }
   };
@@ -93,7 +93,7 @@ export const TaskList: React.FC = () => {
         setNewCategory('');
         setCategoryErrorMessage("");
       } catch (error) {
-        console.error("Error adding category:", error);
+        console.error("Greška dodavanja kategorije:", error);
       }
     }
   };
@@ -106,7 +106,7 @@ export const TaskList: React.FC = () => {
         setCategories(categories.filter((_, i) => i !== index));
         setTasks(tasks.filter(task => task.category !== categoryToDelete));
       } catch (error) {
-        console.error("Error deleting category:", error);
+        console.error("Greška brisanja kategorije:", error);
       }
     }
   };
@@ -120,7 +120,7 @@ export const TaskList: React.FC = () => {
       await updateTask(task.id!, { completed: !task.completed });
       setTasks(tasks.map((item) => item.id === task.id ? { ...item, completed: !item.completed } : item));
     } catch (error) {
-      console.error("Error updating task:", error);
+      console.error("Greška ažuriranja zadatka:", error);
     }
   };
 
@@ -144,7 +144,7 @@ export const TaskList: React.FC = () => {
         setTasks(tasks.map((task) => task.id === updatedTask.id ? updatedTask : task));
         setEditingTask(null);
       } catch (error) {
-        console.error("Error saving task changes:", error);
+        console.error("Greška prilikom spremanja promjeni kod zadatka:", error);
       }
     }
   };

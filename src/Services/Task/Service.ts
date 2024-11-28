@@ -6,10 +6,10 @@ export const deleteTask = async (taskId: string): Promise<void> => {
   try {
     const taskDocRef = doc(database, 'tasks', taskId);
     await deleteDoc(taskDocRef);
-    console.log(`Task with ID ${taskId} deleted successfully.`);
+    console.log(`Zadatak s ID ${taskId} izbrisan uspješno.`);
   } catch (error) {
     console.error("Error deleting task:", error);
-    throw new Error(`Error deleting task with ID ${taskId}`);
+    throw new Error(`Greška prilikom brisanja zadatka s ID ${taskId}`);
   }
 };
 
@@ -17,11 +17,11 @@ export const addTask = async (newTask: Task): Promise<Task> => {
   try {
     const tasksCollectionRef = collection(database, 'tasks');
     const docRef = await addDoc(tasksCollectionRef, { ...newTask, createdAt: new Date() });
-    console.log("New task added:", newTask);
+    console.log("Novi zadatak dodan:", newTask);
     return { ...newTask, id: docRef.id, createdAt: new Date() };
   } catch (error) {
-    console.error("Error adding task:", error);
-    throw new Error("Error adding task");
+    console.error("Greška prilikom dodavanja zadatka:", error);
+    throw new Error("Greška prilikom dodavanja zadatka");
   }
 };
 
@@ -30,10 +30,10 @@ export const handleAddCategory = async (newCategory: string, userId: string): Pr
     const categoriesCollectionRef = collection(database, 'categories');
     const newCategoryItem = { name: newCategory, userID: userId };
     await addDoc(categoriesCollectionRef, newCategoryItem);
-    console.log("New category added:", newCategory);
+    console.log("Nova kategorija dodana:", newCategory);
   } catch (error) {
-    console.error("Error adding category:", error);
-    throw new Error("Error adding category");
+    console.error("Greška prilikom dodavanja kategorije:", error);
+    throw new Error("Greška prilikom dodavanja kategorije");
   }
 };
 
@@ -54,8 +54,8 @@ export const handleDeleteCategory = async (categoryToDelete: string, userId: str
 
     console.log(`Category ${categoryToDelete} and its tasks deleted successfully.`);
   } catch (error) {
-    console.error("Error deleting category:", error);
-    throw new Error("Error deleting category");
+    console.error("Greška prilikom brisanja kategorije:", error);
+    throw new Error("Greška prilikom brisanja kategorije");
   }
 };
 
@@ -78,8 +78,8 @@ export const fetchTasksAndCategories = async (userId: string) => {
 
     return { tasks, categories };
   } catch (error) {
-    console.error("Error fetching tasks and categories:", error);
-    throw new Error("Error fetching tasks and categories");
+    console.error("Greška dohvaćanja kategorije i zadatka:", error);
+    throw new Error("Greška dohvaćanja kategorije i zadatka");
   }
 };
 
@@ -94,7 +94,7 @@ export const getUserTasks = async (userId: string): Promise<Task[]> => {
       }
     );
   } catch (error) {
-    console.error("Error getting user tasks:", error);
+    console.error("Greška prilokom dohvaćanja zadatka:", error);
     throw error;
   }
 };
@@ -106,7 +106,7 @@ export const updateTask = async (
   try {
     await updateDoc(doc(database, "tasks", taskId), updates);
   } catch (error) {
-    console.error("Error updating task:", error);
+    console.error("Greška prilikom ažuriranja zadatka:", error);
     throw error;
   }
 };
@@ -116,15 +116,15 @@ export const handleSaveChanges = async (task: Task, userId: string): Promise<voi
     // Delete the old task
     const taskDocRef = doc(database, 'tasks', task.id!);
     await deleteDoc(taskDocRef);
-    console.log(`Old task with ID ${task.id} deleted successfully.`);
+    console.log(`Stari zadatak s ID ${task.id} izbrisan uspješno.`);
 
     // Add the new task without the id field
     const { id, ...newTaskData } = task;
     const tasksCollectionRef = collection(database, 'tasks');
     const docRef = await addDoc(tasksCollectionRef, { ...newTaskData, createdAt: new Date() });
-    console.log("New task added:", { ...newTaskData, id: docRef.id });
+    console.log("Novi zadatak dodan:", { ...newTaskData, id: docRef.id });
   } catch (error) {
-    console.error("Error updating task:", error);
-    throw new Error("Error updating task");
+    console.error("Greška prilikom ažuriranja zadatka:", error);
+    throw new Error("Greška prilikom ažuriranja zadatka");
   }
 };
