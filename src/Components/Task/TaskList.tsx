@@ -229,6 +229,7 @@ export const TaskList: React.FC = () => {
                 {editingTask && editingTask.id === task.id && (
                   <div className="edit-modal">
                     <h2>Uredi zadatak</h2>
+                    <hr/>
                     <label>
                       Kategorija:
                       <select value={editCategory} onChange={(e) => setEditCategory(e.target.value)}>
