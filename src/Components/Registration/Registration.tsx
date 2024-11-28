@@ -1,6 +1,6 @@
 import React, { useState, FC } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Registration.css";
+import "./Registration.scss";
 import { useAuth } from "../../Hooks/useAuth";
 
 const Registration: FC = () => {

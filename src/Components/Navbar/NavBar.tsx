@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import './NavBar.css';
+import './NavBar.scss';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../firebaseconfing';
 import { useAuth } from '../../Hooks/useAuth';

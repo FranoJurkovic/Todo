@@ -1,6 +1,6 @@
 import React, { useState, FC } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Login.css";
+import "./Login.scss";
 import { useAuth } from "../../Hooks/useAuth";
 
 const Login: FC = () => {

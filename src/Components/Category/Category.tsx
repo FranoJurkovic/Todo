@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import "./Category.scss";
 
 interface CategoryProps {
   categories: string[];

@@ -3,7 +3,7 @@
   flex-direction: column;
   align-items: center;
   padding: 25px;
-  background-color: rgba(0, 0, 0, 0.7); /* Tamnija pozadina za kontrast */
+  background-color: rgba(0, 0, 0, 0.7); // Tamnija pozadina za kontrast
   border: 2px solid #444;
   border-radius: 10px;
   width: 320px;
@@ -15,7 +15,7 @@
 .Registration label {
   font-size: 1.1rem;
   margin-bottom: 8px;
-  color: #e0e0e0; /* Svetlija boja za bolju čitljivost */
+  color: #e0e0e0; // Svetlija boja za bolju čitljivost
 }
 
 .Registration input[type="text"],
@@ -26,7 +26,7 @@
   margin: 6px 0;
   border: 1px solid #555;
   border-radius: 6px;
-  background-color: #222; /* Tamnija pozadina za input polja */
+  background-color: #222; // Tamnija pozadina za input polja
   color: #f0f0f0;
   box-sizing: border-box;
 }

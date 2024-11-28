@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './HomePage.css';
+import './HomePage.scss';
 import { useAuth } from '../../Hooks/useAuth'; // Uvoz hooka useAuth
 
 const HomePage: React.FC = () => {
