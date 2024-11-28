@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Navbar } from '../Navbar';
-import './WelcomePage.css';
+import './WelcomePage.scss';
 import { useAuth } from '../../Hooks/useAuth';
 import { TaskList } from '../Task';
 

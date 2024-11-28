@@ -39,12 +39,24 @@ const HomePage: React.FC = () => {
       <div className="content">
         <hr />
         <div className="features">
-          <h2>Zašto koristiti našu aplikaciju?</h2>
+          <h2>O nama</h2>
+          <p>
+            Dobrodošli u našu aplikaciju za upravljanje zadacima! Naša aplikacija omogućava korisnicima jednostavno i efikasno upravljanje njihovim svakodnevnim obavezama i zadacima. 
+            Koristeći našu aplikaciju, korisnici mogu:
+          </p>
           <ul>
-            <li>Jednostavno dodavanje, uređivanje i upravljanje zadacima</li>
-            <li>Kategorizacija zadataka radi boljeg pregleda</li>
-            <li>Pristup zadacima s bilo kojeg uređaja</li>
+            <li>Jednostavno dodavati, uređivati i upravljati zadacima.</li>
+            <li>Kategorizirati zadatke radi boljeg pregleda i organizacije.</li>
+            <li>Pristupati zadacima s bilo kojeg uređaja u bilo koje vrijeme.</li>
+            <li>Dodavati nove kategorije za zadatke kako bi ih bolje organizirali.</li>
+            <li>Nakon odabira kategorije, dodavati nove zadatke s opisima.</li>
+            <li>Uređivati postojeće zadatke, ažurirati njihove opise i detalje.</li>
+            <li>Označavati zadatke kao dovršene kada su gotovi.</li>
+            <li>Brisati zadatke i kategorije koje više nisu potrebne.</li>
           </ul>
+          <p>
+            Cilj nam je pružiti vam najbolji alat za održavanje produktivnosti i organizacije vaših obaveza. Nadamo se da će vam aplikacija pomoći da bolje organizirate svoje vrijeme i zadatke.
+          </p>
         </div>
       </div>
 

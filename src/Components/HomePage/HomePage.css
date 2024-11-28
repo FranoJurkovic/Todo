@@ -57,6 +57,32 @@ h3.naslov {
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Adding a subtle shadow */
 }
 
+.features {
+  text-align: left; /* Left align text for better readability */
+}
+
+.features h2 {
+  color: #000080;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.features p,
+.features ul {
+  color: #333;
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.features ul {
+  padding-left: 20px; /* Adding left padding for list */
+}
+
+.features ul li {
+  margin-bottom: 10px; /* Adding space between list items */
+}
+
 /* Section for advertisements (if any) */
 .ads-section {
   margin-top: 20px;
@@ -139,13 +165,19 @@ button:focus {
 h1 {
   color: white;
 }
-pre{
+
+pre {
   color: black;
 }
+
 .fetch-button {
   margin-top: 20px;
   background-color: #4CAF50; /* Optional different color for fetch button */
 }
-p{
+
+p {
   color: black;
+}
+li{
+  color: white;
 }
