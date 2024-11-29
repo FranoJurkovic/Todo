@@ -178,13 +178,13 @@ button.delete {
 
 .task-description {
   font-size: 14px;
-  color: #fff; // Bijela boja za opis
+  color: #fff;
 }
 
 // Stil za vrijeme kreiranja zadatka
 .task-createdAt {
   font-size: 12px;
-  color: #ccc; // Svijetlo siva boja za datum kreiranja
+  color: #ccc;
   margin-top: 5px;
 }
 
@@ -194,8 +194,7 @@ button.delete {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  //background-color: gray;
-  background: linear-gradient(black, blue,black);
+  background-color: gray;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -267,7 +266,7 @@ button.delete {
 
   // Dodano pravilo za modal za uređivanje na manjim zaslonima
   .edit-modal {
-    width: 100%;  // Maksimalna širina
-    max-width: 100%;  // Osigurava da modal koristi maksimalnu širinu zaslona
+    width: 100%;
+    max-width: 100%;
   }
 }

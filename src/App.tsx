@@ -7,7 +7,7 @@ import HomePage from './Components/HomePage/HomePage';
 import { Navbar } from './Components/Navbar/NavBar';
 
 export const App: React.FC = () => {
-  const loggedInUser = null; // Pretpostavimo da nije korisnik prijavljen
+  const loggedInUser = null;
 
   return (
     <BrowserRouter future={{ v7_relativeSplatPath: true }}>

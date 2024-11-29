@@ -4,10 +4,10 @@ import "./Registration.scss";
 import { useAuth } from "../../Hooks/useAuth";
 
 const Registration: FC = () => {
-  const [name, setName] = useState<string>(""); // Korisničko ime
-  const [email, setEmail] = useState<string>(""); // Email korisnika
-  const [password, setPassword] = useState<string>(""); // Lozinka korisnika
-  const [errorMessage, setErrorMessage] = useState<string>(""); // Poruka o grešci
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const navigate = useNavigate();
 
   const { register, error } = useAuth();
@@ -56,18 +56,24 @@ const Registration: FC = () => {
         value={name}
         onChange={(e) => setName(e.target.value)}
         placeholder="Ime"
+        name="name"
+        id="name"
       /><br />
       <input
         type="email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         placeholder="Email"
+        name="email"
+        id="email"
       /><br />
       <input
         type="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         placeholder="Lozinka"
+        name="password"
+        id="password"
       /><br />
       <button onClick={handleRegister}>Spremi podatke</button>
       <br />

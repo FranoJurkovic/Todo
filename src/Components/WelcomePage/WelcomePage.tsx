@@ -11,16 +11,16 @@ const WelcomePage: React.FC = () => {
 
   useEffect(() => {
     if (!loading && !user) {
-      navigate('/login');  // Preusmjeri na login stranicu ako korisnik nije prijavljen
+      navigate('/login');
     }
   }, [loading, user, navigate]);
 
-  if (loading) return <p>Loading...</p>;  // Dok se stanje učitava
+  if (loading) return <p>Loading...</p>;
 
   return (
     <div className="welcome-container">
       <Navbar />
-      <TaskList /> {/* Prikazuje listu zadataka */}
+      <TaskList />
     </div>
   );
 };

@@ -16,7 +16,6 @@ export const TaskList: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [categoryErrorMessage, setCategoryErrorMessage] = useState<string>("");
 
-  // Državni za uređivanje
   const [editingTask, setEditingTask] = useState<Task | null>(null);
   const [editTaskTitle, setEditTaskTitle] = useState('');
   const [editTaskDescription, setEditTaskDescription] = useState('');
@@ -68,7 +67,7 @@ export const TaskList: React.FC = () => {
           completed: false,
           category: category,
           userID: user.uid,
-          createdAt: new Date() // Dodano polje za vrijeme kreiranja zadatka
+          createdAt: new Date()
         };
         const addedTask = await addTask(newTask);
         setTasks([...tasks, addedTask]);
@@ -159,7 +158,9 @@ export const TaskList: React.FC = () => {
         type="text"
         placeholder="Dodaj novu kategoriju"
         value={newCategory}
-        onChange={(e) => setNewCategory(e.target.value)}
+        onChange={(e) => setNewCategory(e.target.value)} 
+        name='newCategory'
+        id='newCategory'
       />
       <button onClick={handleAddCategoryClick}>Dodaj kategoriju</button>
       {categoryErrorMessage && <p style={{ color: "red" }}>{categoryErrorMessage}</p>}
@@ -177,7 +178,12 @@ export const TaskList: React.FC = () => {
           </li>
         ))}
       </ul>
-      <select value={category} onChange={(e) => setCategory(e.target.value)}>
+      <select 
+        value={category} 
+        onChange={(e) => setCategory(e.target.value)} 
+        name='selectCategory'
+        id='selectCategory'
+      >
         <option value="">Izaberite kategoriju</option>
         {categories.map((cat, index) => (
           <option key={index} value={cat}>
@@ -191,13 +197,17 @@ export const TaskList: React.FC = () => {
         type="text"
         placeholder="Dodaj novi zadatak"
         value={newTaskTitle}
-        onChange={(e) => setNewTaskTitle(e.target.value)}
+        onChange={(e) => setNewTaskTitle(e.target.value)} 
+        name='newTaskTitle'
+        id='newTaskTitle'
       />
       <input
         type="text"
         placeholder="Opis zadatka"
         value={newTaskDescription}
-        onChange={(e) => setNewTaskDescription(e.target.value)}
+        onChange={(e) => setNewTaskDescription(e.target.value)} 
+        name='newTaskDescription'
+        id='newTaskDescription'
       />
       <button onClick={handleAddTaskClick}>Dodaj zadatak</button>
       <hr />
@@ -218,55 +228,66 @@ export const TaskList: React.FC = () => {
                 <input
                   type="checkbox"
                   checked={task.completed}
-                  onChange={() => handleCheckboxChange(task)}
-                />
-                <button className="edit" onClick={() => handleEditClick(task)}>Uredi</button>
-                <button className="delete" onClick={() => {
-                  deleteTask(task.id!);
-                  setTasks(tasks.filter((item) => item.id !== task.id));
-                }}>Obriši</button>
-                
-                {editingTask && editingTask.id === task.id && (
-                  <div className="edit-modal">
-                    <h2>Uredi zadatak</h2>
-                    <hr/>
-                    <label>
-                      Kategorija:
-                      <select value={editCategory} onChange={(e) => setEditCategory(e.target.value)}>
-                        {categories.map((cat, index) => (
-                          <option key={index} value={cat}>
-                            {cat}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-                    <label>
-                      Naziv:
-                      <input
-                        type="text"
-                        value={editTaskTitle}
-                        onChange={(e) => setEditTaskTitle(e.target.value)}
-                      />
-                    </label>
-                    <label>
-                      Opis:
-                      <input
-                        type="text"
-                        value={editTaskDescription}
-                        onChange={(e) => setEditTaskDescription(e.target.value)}
-                      />
-                    </label>
-                    <button onClick={handleSaveChangesClick}>Spremi promjene</button>
-                    <button onClick={handleCancelEditClick}>Odustani</button>
-                  </div>
-                )}
-              </li>
-            ))
-          )
-        ) : (
-          <li>Izaberite kategoriju za prikaz zadataka.</li>
-        )}
-      </ul>
-    </div>
-  );
-};
+                  onChange={() => handleCheckboxChange(task)} 
+                  name='taskCompleted'
+                  id='taskCompleted'
+                  />
+                  <button className="edit" onClick={() => handleEditClick(task)}>Uredi</button>
+                  <button className="delete" onClick={() => {
+                    deleteTask(task.id!);
+                    setTasks(tasks.filter((item) => item.id !== task.id));
+                  }}>Obriši</button>
+                  
+                  {editingTask && editingTask.id === task.id && (
+                    <div className="edit-modal">
+                      <h2>Uredi zadatak</h2>
+                      <hr/>
+                      <label>
+                        Kategorija:
+                        <select 
+                          value={editCategory} 
+                          onChange={(e) => setEditCategory(e.target.value)} 
+                          name='editCategory'
+                          id='editCategory'
+                        >
+                          {categories.map((cat, index) => (
+                            <option key={index} value={cat}>
+                              {cat}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+                      <label>
+                        Naziv:
+                        <input
+                          type="text"
+                          value={editTaskTitle}
+                          onChange={(e) => setEditTaskTitle(e.target.value)} 
+                          name='editTaskTitle'
+                          id='editTaskTitle'
+                        />
+                      </label>
+                      <label>
+                        Opis:
+                        <input
+                          type="text"
+                          value={editTaskDescription}
+                          onChange={(e) => setEditTaskDescription(e.target.value)} 
+                          name='editTaskDescription'
+                          id='editTaskDescription'
+                        />
+                      </label>
+                      <button onClick={handleSaveChangesClick}>Spremi promjene</button>
+                      <button onClick={handleCancelEditClick}>Odustani</button>
+                    </div>
+                  )}
+                </li>
+              ))
+            )
+          ) : (
+            <li>Izaberite kategoriju za prikaz zadataka.</li>
+          )}
+        </ul>
+      </div>
+    );
+  };  

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './HomePage.scss';
-import { useAuth } from '../../Hooks/useAuth'; // Uvoz hooka useAuth
+import { useAuth } from '../../Hooks/useAuth';
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
@@ -9,16 +9,16 @@ const HomePage: React.FC = () => {
 
   useEffect(() => {
     if (!loading && user) {
-      navigate('/welcome'); // Preusmjeri prijavljenog korisnika na Welcome stranicu
+      navigate('/welcome');
     }
   }, [user, loading, navigate]);
 
   const handleNavigateToLogin = () => {
-    navigate('/login'); // Putanja do stranice za prijavu
+    navigate('/login');
   };
 
   const handleNavigateToRegistration = () => {
-    navigate('/register'); // Putanja do stranice za registraciju
+    navigate('/register');
   };
 
   return (

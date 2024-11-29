@@ -3,7 +3,7 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #000080; // Tamno plava pozadina
+  background-color: #000080;
   padding: 12px 24px;
   border-radius: 8px;
 }
@@ -14,7 +14,7 @@ h2 {
   margin: 0;
 }
 .boja{
-  color: white; // Bijela slova
+  color: white;
 }
 
 // Stil za dugmad za odjavu
@@ -30,7 +30,7 @@ button {
 }
 
 button:hover {
-  background-color: #e53935; // Blagi efekt za hover
+  background-color: #e53935;
   transform: scale(1.05);
 }
 

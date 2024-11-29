@@ -22,7 +22,7 @@ const Login: FC = () => {
   };
 
   const handleNavigateToRegistration = () => {
-    navigate('/register'); // Preusmjeri na stranicu za registraciju
+    navigate('/register');
   };
 
   return (
@@ -33,12 +33,16 @@ const Login: FC = () => {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         placeholder="Email"
+        name="email" 
+        id="email"
       />
       <input
         type="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         placeholder="Lozinka"
+        name="password"
+        id="password"
       />
       {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
       <button onClick={handleLogin}>Prijavi se</button>
