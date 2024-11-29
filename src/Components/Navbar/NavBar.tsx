@@ -24,7 +24,7 @@ export const Navbar: React.FC = () => {
     <nav>
       {user ? ( // Ako je korisnik prijavljen, prikaži pozdrav i gumb za odjavu
         <>
-          <h2>Pozdrav, {user.email}!</h2>
+          <h2 className='boja'>Pozdrav, {user.email}!</h2>
           <button onClick={handleLogout}>Odjavi se</button>
         </>
       ) : (

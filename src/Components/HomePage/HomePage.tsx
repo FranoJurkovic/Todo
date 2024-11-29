@@ -41,7 +41,8 @@ const HomePage: React.FC = () => {
         <div className="features">
           <h2>O nama</h2>
           <p>
-            Dobrodošli u našu aplikaciju za upravljanje zadacima! Naša aplikacija omogućava korisnicima jednostavno i efikasno upravljanje njihovim svakodnevnim obavezama i zadacima. 
+            Dobrodošli u našu aplikaciju za upravljanje zadacima! Naša aplikacija omogućava korisnicima jednostavno i efikasno upravljanje njihovim svakodnevnim obavezama i zadacima.
+            <br/>
             Koristeći našu aplikaciju, korisnici mogu:
           </p>
           <ul>
@@ -59,7 +60,6 @@ const HomePage: React.FC = () => {
           </p>
         </div>
       </div>
-
       <footer className="footer">
         <p>&copy; {new Date().getFullYear()} Aplikacija zadataka. Sva prava pridržana. Kreirao Frano 🛠️</p>
       </footer>

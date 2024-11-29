@@ -1,3 +1,19 @@
+.homepage-container {
+  padding: 20px;
+  font-family: 'Arial', sans-serif;
+  background-color: white;
+  border-radius: 8px;
+  max-width: 800px;
+  margin: 20px auto;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); // Adding a subtle shadow
+}
+
+.features {
+  background-color: rgba(255, 255, 255, 0.8); // Bijela prozirna pozadina za bolju čitljivost teksta
+  padding: 20px;
+  border-radius: 8px;
+}
+
 // Navbar styling
 .navbar {
   display: flex;
@@ -46,43 +62,6 @@ h3.naslov {
   line-height: 1.5; // Improve readability
 }
 
-// Styling for the home page container
-.homepage-container {
-  padding: 20px;
-  font-family: 'Arial', sans-serif;
-  background-color: white;
-  border-radius: 8px;
-  max-width: 800px;
-  margin: 20px auto;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); // Adding a subtle shadow
-}
-
-.features {
-  text-align: left; // Left align text for better readability
-}
-
-.features h2 {
-  color: #000080;
-  font-size: 24px;
-  margin-bottom: 10px;
-}
-
-.features p,
-.features ul {
-  color: #333;
-  font-size: 16px;
-  line-height: 1.6;
-  margin-bottom: 20px;
-}
-
-.features ul {
-  padding-left: 20px; // Adding left padding for list
-}
-
-.features ul li {
-  margin-bottom: 10px; // Adding space between list items
-}
-
 // Section for advertisements (if any)
 .ads-section {
   margin-top: 20px;
@@ -129,6 +108,9 @@ button:hover {
 button:focus {
   outline: none; // Remove default focus outline
   box-shadow: 0 0 8px rgba(76, 175, 80, 0.3); // Green glow on focus
+}
+h2{
+  color: black;
 }
 
 // Responsive Design
